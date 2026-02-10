@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Verification - Admin Panel</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-900 text-white p-8">
+    <div class="max-w-6xl mx-auto">
+        <h1 class="text-3xl font-bold mb-8">💳 Payment Verification Panel</h1>
+
+        <!-- Pending Payments -->
+        <div class="bg-gray-800 rounded-lg p-6">
+            <h2 class="text-xl font-semibold mb-4">Pending Payments</h2>
+            <div id="payments-list">
+                <p class="text-gray-400">Loading...</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_URL = 'http://localhost:3000';
+
+        async function loadPayments() {
+            try {
+                // For now, read from local JSON file
+                // In production, this would be an API call
+                const response = await fetch('../backend/data/payments.json');
+                const payments = await response.json();
+
+                const pendingPayments = payments.filter(p => p.status === 'pending');
+
+                if (pendingPayments.length === 0) {
+                    document.getElementById('payments-list').innerHTML =
+                        '<p class="text-gray-400">No pending payments</p>';
+                    return;
+                }
+
+                const html = pendingPayments.map(payment => `
+                    <div class="bg-gray-700 p-4 rounded-lg mb-4">
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <p class="text-gray-400 text-sm">Email</p>
+                                <p class="font-semibold">${payment.email}</p>
+                            </div>
+                            <div>
+                                <p class="text-gray-400 text-sm">Transaction ID</p>
+                                <p class="font-mono text-green-400">${payment.transactionId}</p>
+                            </div>
+                            <div>
+                                <p class="text-gray-400 text-sm">Submitted</p>
+                                <p>${new Date(payment.submittedAt).toLocaleString()}</p>
+                            </div>
+                            <div>
+                                <p class="text-gray-400 text-sm">Payment ID</p>
+                                <p class="font-mono text-xs">${payment.id}</p>
+                            </div>
+                        </div>
+                        <div class="mt-4">
+                            <p class="text-gray-400 text-sm mb-2">Resume Preview</p>
+                            <p class="text-sm bg-gray-800 p-2 rounded">${payment.resumeText}</p>
+                        </div>
+                        <div class="mt-4 flex gap-2">
+                            <button 
+                                onclick="verifyPayment('${payment.id}')"
+                                class="bg-green-600 hover:bg-green-700 px-4 py-2 rounded">
+                                ✓ Verify & Send Resume
+                            </button>
+                            <button 
+                                onclick="rejectPayment('${payment.id}')"
+                                class="bg-red-600 hover:bg-red-700 px-4 py-2 rounded">
+                                ✗ Reject
+                            </button>
+                        </div>
+                    </div>
+                `).join('');
+
+                document.getElementById('payments-list').innerHTML = html;
+
+            } catch (error) {
+                console.error('Error loading payments:', error);
+                document.getElementById('payments-list').innerHTML =
+                    '<p class="text-red-400">Error loading payments. Make sure the backend is running.</p>';
+            }
+        }
+
+        function verifyPayment(paymentId) {
+            // TODO: Implement API call to verify payment
+            // This will trigger resume generation and email sending
+            alert(`Verifying payment ${paymentId}...\n\nNext steps:\n1. Check UPI app for transaction\n2. If valid, generate fixed resume\n3. Send email to customer`);
+
+            // For now, just reload
+            setTimeout(loadPayments, 1000);
+        }
+
+        function rejectPayment(paymentId) {
+            if (confirm('Reject this payment? This will notify the customer.')) {
+                alert(`Payment ${paymentId} rejected`);
+                setTimeout(loadPayments, 1000);
+            }
+        }
+
+        // Auto-refresh every 30 seconds
+        loadPayments();
+        setInterval(loadPayments, 30000);
+    </script>
+</body>
+
+</html>
