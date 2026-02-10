@@ -2,6 +2,9 @@
     "name": "resume-rejection-analyzer-root",
     "version": "1.0.0",
     "private": true,
+    "engines": {
+        "node": "20.x"
+    },
     "scripts": {
         "start": "node backend/server.js",
         "dev": "nodemon backend/server.js",

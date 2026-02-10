@@ -221,17 +221,19 @@ function parseRecruitingResponse(response) {
     }
 }
 
-// Start server
-app.listen(PORT, () => {
-    console.log(`🔥 Resume Rejection Analyzer API running on port ${PORT}`);
-    console.log(`📍 API endpoint: http://localhost:${PORT}/analyze`);
-    console.log(`🤖 Using: Google Gemini AI (FREE)`);
+// Start server ONLY if running directly (not via Vercel/serverless import)
+if (require.main === module) {
+    app.listen(PORT, () => {
+        console.log(`🔥 Resume Rejection Analyzer API running on port ${PORT}`);
+        console.log(`📍 API endpoint: http://localhost:${PORT}/analyze`);
+        console.log(`🤖 Using: Google Gemini AI (FREE)`);
 
-    if (!process.env.GEMINI_API_KEY) {
-        console.warn('⚠️  WARNING: GEMINI_API_KEY not found in environment variables!');
-        console.warn('   Get your FREE API key at: https://makersuite.google.com/app/apikey');
-        console.warn('   Then add it to your .env file');
-    }
-});
+        if (!process.env.GEMINI_API_KEY) {
+            console.warn('⚠️  WARNING: GEMINI_API_KEY not found in environment variables!');
+            console.warn('   Get your FREE API key at: https://makersuite.google.com/app/apikey');
+            console.warn('   Then add it to your .env file');
+        }
+    });
+}
 
 module.exports = app;
