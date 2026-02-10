@@ -1,11 +1,14 @@
+// Load env only in local (Vercel provides them natively)
+if (process.env.NODE_ENV !== 'production') {
+    require('dotenv').config();
+}
+
 const express = require('express');
 const cors = require('cors');
 const { GoogleGenerativeAI } = require('@google/generative-ai');
 const emailService = require('./services/email-service');
 const aiFixer = require('./services/ai-fixer');
 const pdfService = require('./services/pdf-service');
-
-require('dotenv').config();
 
 const app = express();
 const PORT = process.env.PORT || 3000;
