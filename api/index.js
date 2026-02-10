@@ -235,7 +235,7 @@ function parseRecruitingResponse(response) {
     }
 }
 
-// Start server ONLY if running directly (not via Vercel/serverless import)
+// 5. Start server ONLY if running directly (not via Vercel/serverless import)
 if (require.main === module) {
     app.listen(PORT, () => {
         console.log(`🔥 Resume Rejection Analyzer API running on port ${PORT}`);
@@ -245,14 +245,9 @@ if (require.main === module) {
         if (!process.env.GEMINI_API_KEY) {
             console.warn('⚠️  WARNING: GEMINI_API_KEY not found in environment variables!');
             console.warn('   Get your FREE API key at: https://makersuite.google.com/app/apikey');
-            console.warn('   Then add it to your .env file');
         }
     });
-    // Export the app for Vercel
-    module.exports = app;
+}
 
-    if (require.main === module) {
-        app.listen(PORT, () => {
-            console.log(`🔥 Server running on port ${PORT}`);
-        });
-    }
+// 6. Export the app for Vercel
+module.exports = app;
