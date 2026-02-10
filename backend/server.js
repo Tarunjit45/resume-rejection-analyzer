@@ -10,12 +10,17 @@ require('dotenv').config();
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+// Proactive API Key Check
+if (!process.env.GEMINI_API_KEY) {
+    console.warn('❌ CRITICAL: GEMINI_API_KEY is missing from process.env');
+}
+
 // Middleware
 app.use(cors());
 app.use(express.json({ limit: '50mb' }));
 
 // Initialize Google Gemini AI
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || 'MISSING_KEY');
 const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash' });
 
 // The brutal recruiter system prompt (CORE PRODUCT ASSET - DO NOT MODIFY)
@@ -49,17 +54,18 @@ Do NOT give solutions or fixes.
 Do NOT rewrite anything.
 Only diagnose.`;
 
-// Health check endpoint
-app.get('/', (req, res) => {
+// Health check endpoint (for Vercel and local)
+app.get(['/', '/api/health'], (req, res) => {
     res.json({
         status: 'ok',
         message: 'Resume Rejection Analyzer API',
-        version: '1.0.0'
+        api_key_set: !!process.env.GEMINI_API_KEY,
+        version: '1.0.1'
     });
 });
 
 // Verify Transaction and Unlock Fix
-app.post('/verify-transaction', async (req, res) => {
+app.post(['/verify-transaction', '/api/verify-transaction'], async (req, res) => {
     try {
         const { utr, email, originalResume, rejectionReasons } = req.body;
 
@@ -92,8 +98,13 @@ app.post('/verify-transaction', async (req, res) => {
 });
 
 // Main analysis endpoint
-app.post('/analyze', async (req, res) => {
+app.post(['/analyze', '/api/analyze'], async (req, res) => {
     try {
+        console.log('🔍 Received analysis request');
+        if (!process.env.GEMINI_API_KEY) {
+            throw new Error('GEMINI_API_KEY is not configured in Vercel environment variables.');
+        }
+
         const { resumeText } = req.body;
 
         // Validation
