@@ -26,7 +26,7 @@ Thumbs.db
 
 # Backend Data (Local storage)
 data/
-server/data/
+api/data/
 
 # Brain/Task artifacts (Optional: if you want to push them, remove this line)
 brain/
