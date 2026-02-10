@@ -248,6 +248,11 @@ if (require.main === module) {
             console.warn('   Then add it to your .env file');
         }
     });
-}
+    // Export the app for Vercel
+    module.exports = app;
 
-module.exports = app;
+    if (require.main === module) {
+        app.listen(PORT, () => {
+            console.log(`🔥 Server running on port ${PORT}`);
+        });
+    }
