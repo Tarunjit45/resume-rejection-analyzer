@@ -1,72 +1,77 @@
-# 🚀 resume-rejection-analyzer
+# 🎯 Resume Rejection Analyzer — AI ATS Audit & Diagnosis Engine
 
-![Language](https://img.shields.io/badge/Language-HTML-blue?style=for-the-badge)
-![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)
-![Status](https://img.shields.io/badge/Production-Active-success?style=for-the-badge)
+[![Node.js](https://img.shields.io/badge/Node.js-20+-339933?style=for-the-badge&logo=node.js&logoColor=white)](https://nodejs.org/)
+[![Google Gemini](https://img.shields.io/badge/AI-Google%20Gemini%20API-4285F4?style=for-the-badge&logo=google&logoColor=white)](https://ai.google.dev/)
+[![Express](https://img.shields.io/badge/Backend-Express-000000?style=for-the-badge&logo=express&logoColor=white)](https://expressjs.com/)
+[![UPI Payments](https://img.shields.io/badge/Payments-UPI%20QR%20Integration-00C853?style=for-the-badge)](UPI_QR_SETUP.md)
+[![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)](LICENSE)
 
-## 📌 Overview
+An intelligent career diagnostic platform that reveals **why your resume is getting rejected by automated Applicant Tracking Systems (ATS)**. Powered by Google Gemini AI, it pinpoints missing keywords, flags unparseable layout formatting, calculates rejection probabilities, and includes a built-in **UPI QR micro-payment paywall** for premium deep-dive audits.
 
-A high-performance application engineered by Tarunjit Biswas for quality and scalability.
+---
 
-## ✨ Key Features & Architecture
+## ✨ Features
 
-- **High-Performance Codebase:** Built using `HTML` and modern engineering principles.
-- **Modular & Scalable Design:** Structured directory tree for seamless development and deployment.
-- **Modern Responsive Styling:** Custom UI design system engineered for mobile & desktop clarity.
+* 🤖 **Deep AI Rejection Diagnosis:** Ingests PDF/Word resumes and runs multi-factor heuristic audits using Google Gemini.
+* 📊 **ATS Pass/Fail Probability:** Real-time scoring index predicting chances of clearing initial corporate recruiter filters.
+* 💳 **UPI QR Payment System:** Integrated dynamic UPI payment modal (`UPI_QR_SETUP.md`, `premium-payment-modal.html`) for monetization.
+* 🧪 **Zero-API Mock Mode:** Pre-configured mock testing server (`MOCK_MODE.md`, `server-mock.js`) for local debugging without incurring API costs.
+* 🛠️ **Admin Management Console:** Dedicated administration portal (`admin/`) for auditing submissions and transactions.
 
-## 🛠️ Tech Stack & Dependencies
+---
 
-- **Core Language:** `HTML`
-- **Libraries & Tools:** Tailwind CSS, HTML
-- **Deployment Infrastructure:** Vercel Edge / Cloud Services
-
-## 📁 Architecture & File Layout
+## 📁 Repository Structure
 
 ```text
 resume-rejection-analyzer/
-├── .github
-├── .github/ISSUE_TEMPLATE
-├── .github/ISSUE_TEMPLATE/bug_report.md
-├── .github/ISSUE_TEMPLATE/feature_request.md
-├── .github/PULL_REQUEST_TEMPLATE.md
-├── .github/workflows
-├── .github/workflows/ci.yml
-├── .gitignore
-├── CODE_OF_CONDUCT.md
-├── CONTRIBUTING.md
-├── GEMINI_API_SETUP.md
-├── LICENSE
-├── MOCK_MODE.md
-├── README.md
-├── UPI_QR_SETUP.md
-└── ... [additional codebase files]
+├── backend/
+│   ├── index.js                  # Production Express API server
+│   ├── server-mock.js            # Offline mock server for development
+│   └── routes/                   # Analyze, Payment, and Admin routes
+├── public/                       # Frontend web dashboard & resume dropzone
+├── admin/                        # Administrative telemetry dashboard
+├── premium-payment-modal.html    # Dynamic UPI QR modal interface
+├── GEMINI_API_SETUP.md           # Gemini API key setup instructions
+├── UPI_QR_SETUP.md               # Indian UPI payment configuration guide
+├── MOCK_MODE.md                  # Offline development documentation
+├── package.json                  # Dependencies & scripts
+├── LICENSE                       # MIT License
+└── README.md
 ```
 
-## 🚀 Quickstart & Installation
+---
 
-### Prerequisites
-- Node.js (v18.0.0 or higher)
-- npm or yarn package manager
+## 🚀 Quick Start
 
-### Setup Instructions
+### 1. Installation
+```bash
+git clone https://github.com/Tarunjit45/resume-rejection-analyzer.git
+cd resume-rejection-analyzer
 
-1. **Clone the repository:**
-   ```bash
-   git clone https://github.com/Tarunjit45/resume-rejection-analyzer.git
-   cd resume-rejection-analyzer
-   ```
+npm install
+```
 
-2. **Install dependencies:**
-   ```bash
-   npm install
-   ```
+### 2. Configure Environment
+Create a `.env` file in the root directory:
 
-3. **Launch development server:**
-   ```bash
-   npm run dev
-   ```
+```env
+PORT=5000
+GEMINI_API_KEY=your_gemini_api_key_here
+UPI_ID=your_upi_id@bank
+```
 
-## 📜 Author & License
+### 3. Launch Server
+```bash
+# Production server with Gemini AI
+npm start
 
-Architected & Developed by **[Tarunjit Biswas](https://github.com/Tarunjit45)**.  
-Distributed under the **MIT License**.
+# Or offline mock server
+npm run mock
+```
+
+Open [http://localhost:5000](http://localhost:5000) in your browser.
+
+---
+
+## 📄 License
+This project is licensed under the [MIT License](LICENSE).
